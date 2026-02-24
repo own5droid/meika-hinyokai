@@ -640,7 +640,20 @@
     letter-spacing: 0.1em;
   }
 
-  /* アニメーション */
+  .comment-box {
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--sakura-deep);
+    font-style: italic;
+    min-height: 1.2em;
+    line-height: 1.5;
+  }
+
+  .comment-box:empty::before {
+    content: '— コメントなし —';
+    color: #ccc;
+    font-style: normal;
+  }
   .fade-in {
     opacity: 0;
     transform: translateY(20px);
@@ -781,8 +794,8 @@
       <span class="label">審査員</span>
     </div>
     <div class="header-stat">
-      <span class="num">8</span>
-      <span class="label">地域</span>
+      <span class="num">23</span>
+      <span class="label">都道府県</span>
     </div>
     <div class="header-stat">
       <span class="num">3</span>
@@ -860,7 +873,7 @@
         </div>
       </div>
       <div class="judge-card">
-        <div class="judge-avatar">🥔</div>
+        <div class="judge-avatar">🍠</div>
         <div class="judge-name">いも</div>
         <div class="judge-title">審査員</div>
         <div class="judge-desc">
@@ -952,7 +965,7 @@
         <div class="judge-panel-avatar">🍄</div>
         <div>
           <div class="judge-panel-name">きのこ の審査結果</div>
-          <div class="judge-panel-sub">独自性・定番度・好みをそれぞれ厳格に評価</div>
+          <div class="judge-panel-sub">甘めの中にある酸味とのバランスを好む傾向があり、好み度も高め。「甘い × さっぱり」が好きな方の参考になりそうなランキングです。</div>
         </div>
       </div>
       <table class="rank-table">
@@ -975,7 +988,7 @@
         <div class="judge-panel-avatar">🐟</div>
         <div>
           <div class="judge-panel-name">みりんぼし の審査結果</div>
-          <div class="judge-panel-sub">素材と伝統を重視した評価スタイル</div>
+          <div class="judge-panel-sub">素朴な甘さや塩気のあるものの好み度が高い傾向。甘いものは「たまに食べたくなる」くらいの方の参考になりそうなランキングです。</div>
         </div>
       </div>
       <table class="rank-table">
@@ -995,10 +1008,10 @@
     <!-- 中村 -->
     <div id="panel-nakamura" class="judge-panel">
       <div class="judge-panel-header">
-        <div class="judge-panel-avatar">🥔</div>
+        <div class="judge-panel-avatar">🍠</div>
         <div>
           <div class="judge-panel-name">いも の審査結果</div>
-          <div class="judge-panel-sub">素直な食の喜びを評価に反映</div>
+          <div class="judge-panel-sub">程よい甘さのものや、さくさく食感のものが上位に来やすい傾向。そんな大人っぽい味覚の方に参考になりそうなランキングです。</div>
         </div>
       </div>
       <table class="rank-table">
@@ -1143,7 +1156,7 @@ function filterRanking(region, btn) {
 }
 
 // 審査員別
-function renderJudge(judgeId, bodyId, getDokuji, getTeiban, getKono) {
+function renderJudge(judgeId, bodyId, getDokuji, getTeiban, getKono, commentKey) {
   const sorted = [...allData].sort((a, b) => {
     const aScore = getDokuji(a) + getTeiban(a) + getKono(a);
     const bScore = getDokuji(b) + getTeiban(b) + getKono(b);
@@ -1156,6 +1169,7 @@ function renderJudge(judgeId, bodyId, getDokuji, getTeiban, getKono) {
     const rank = i + 1;
     const cls = getRankClass(rank);
     const medal = getMedal(rank);
+    const comment = comments[commentKey] && comments[commentKey][item.name] ? comments[commentKey][item.name] : '';
     const row = document.createElement('tr');
     row.className = 'rank-row';
     row.innerHTML = `
@@ -1163,6 +1177,7 @@ function renderJudge(judgeId, bodyId, getDokuji, getTeiban, getKono) {
       <td>
         <div class="rank-name">${item.name}</div>
         <div class="rank-maker">${item.pref} / ${item.maker}</div>
+        <div class="comment-box">${comment}</div>
       </td>
       <td style="text-align:center;">${getStars(getDokuji(item), 3)}</td>
       <td style="text-align:center;">${getStars(getTeiban(item), 3)}</td>
@@ -1188,11 +1203,60 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
+// 一言コメント（ここに記入してください）
+const comments = {
+  hagino: {
+    // 例：'藻なかサブレ': '磯の香りと甘さのバランスが絶妙！',
+  },
+  yasumoto: {
+    '流氷まんじゅう': 'ホワイトチョコの洋風菓子',
+    'ノースマン': 'パイです',
+    '五勝手屋羊羹': '羊羹',
+    '山親爺': '瓦焼き',
+    'リンゴサブレ': '北前船 りんご？さぶれ？くるみっこに近い',
+    'さなづら': '珍しいシート状。甘酸っぱい。さっぱりしていて食べやすい',
+    'ドライいぶりがっこ＆スモークナッツ': '見た目が枯葉なのにうまい。',
+    'うんぺい': 'もっちり。でも餅よりぐずぐず米っぽい。意外とすごく甘い。胡麻の香り',
+    'じんだん大福': '枝豆の香り。やさしいお味。',
+    '藻なかサブレ': 'もなかさぶれとしかいいようがない',
+    '東太平洋': 'すごいラム酒。アルコールが人を選ぶ。高級サブレみ',
+    '笹だんごパン': 'よもぎも団子の入ったぱん',
+    'お米咲く咲く': 'モナカサブレの再来か？胡麻の香り。全部米粉。',
+    'おわら玉天': 'めれんげ？たまご？ふわふわ。あまい',
+    '天狗力餅': 'さくふわ',
+    'あくまき': 'チャレンジが必要。きな粉はうまい。',
+    'ゆのせん': '湯之元煎餅。ノーバターラングドシャらしい。素朴。サクサク。',
+    '若草': '激甘',
+    'はっさく大福': 'はっさくの実がぶりぶり',
+    'みかん大福': 'みかんの実がぶりぶり',
+    '鶴乃子': 'マシュマロに黄身の餡',
+    '栗好き': '本当に栗。栗好きのための、とても食べやすい栗。',
+    'カスドース': 'しゃりしゃりカステイラ',
+    '羽二重餅': 'かなりすあま。やわらかい、あまい。',
+    'メープルサブレ': '間違いなく美味しい。デパ地下。',
+    'パールのレモンケーキ': '香りが良い。レモンの皮感が。酸っぱさもある。',
+    '安倍川餅': '優しい味。もちが好き。シンプルでうまい',
+    'くるみやまびこ': 'ショートブレッドとミルクキャラメルと。甘いけど素朴。ミルキー',
+    '幻のざらめ味噌煎餅(くるみ味噌)': 'しっとりあまい。味噌甘い。ぬれせんみも。塩感もある。ざらめあまい。醤油味噌',
+    'ざぼん漬け': 'あま、いや？にがい？',
+    '元祖けんぴ': '元祖西川屋。かたい。あまい。たまごぼうろのあじ。意外と甘い',
+    'おつまみえのき': 'ゆずの香り。だしがうまい。ポン酢漬けの噛むと滲み出る出汁。',
+    'オリーブグラッセ': 'オリーブの香り。甘い。豆みたい。',
+    'ごまふくろう': '胡麻とマカダミアとしお。ほぼごま',
+    '水戸の梅': '紫蘇の葉の香りと塩気、中の餡の素朴な甘さの調和。',
+    '吉原殿中': '意外な見た目。もちもちさくさく食べ応えあり。',
+    'のし梅': 'さなずらに似ている。意外と甘い。甘酸っぱい',
+  },
+  nakamura: {
+    // 例：'天狗力餅': '素朴なのに記憶に残る味わい。',
+  },
+};
+
 // 初期描画
 renderRanking('all');
-renderJudge('hagino', 'haginoBody', d => d.hDokuji, d => d.hTeiban, d => d.hKono);
-renderJudge('yasumoto', 'yasumotoBody', d => d.yDokuji, d => d.yTeiban, d => d.yKono);
-renderJudge('nakamura', 'nakamuraBody', d => d.nDokuji, d => d.nTeiban, d => d.nKono);
+renderJudge('hagino', 'haginoBody', d => d.hDokuji, d => d.hTeiban, d => d.hKono, 'hagino');
+renderJudge('yasumoto', 'yasumotoBody', d => d.yDokuji, d => d.yTeiban, d => d.yKono, 'yasumoto');
+renderJudge('nakamura', 'nakamuraBody', d => d.nDokuji, d => d.nTeiban, d => d.nKono, 'nakamura');
 </script>
 </body>
 </html>
