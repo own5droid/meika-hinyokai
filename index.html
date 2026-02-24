@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第一回 日本の銘菓 品評会</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;700;900&family=Noto+Sans+JP:wght@300;400;500;700&family=Shippori+Mincho:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sakura: #f5b8c4;
+    --sakura-light: #fde8ed;
+    --sakura-deep: #e8839a;
+    --matcha: #7a9e7e;
+    --matcha-light: #c8deca;
+    --gold: #c9a84c;
+    --gold-light: #f0e0a0;
+    --cream: #fdf8f2;
+    --ink: #2a1f1a;
+    --ink-soft: #4a3c35;
+    --warm-white: #fffdf9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ヘッダー */
+  header {
+    background: linear-gradient(135deg, #fce8f0 0%, #fdf3e0 50%, #e8f4ea 100%);
+    padding: 3rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+      radial-gradient(circle at 15% 30%, rgba(245,184,196,0.3) 0%, transparent 50%),
+      radial-gradient(circle at 85% 70%, rgba(201,168,76,0.2) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(122,158,126,0.1) 0%, transparent 60%);
+  }
+
+  /* 桜の花びら装飾 */
+  .petals {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+  }
+  .petal {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: float-petal 6s ease-in-out infinite;
+    opacity: 0.4;
+  }
+  .petal:nth-child(1) { top: 10%; left: 8%; animation-delay: 0s; }
+  .petal:nth-child(2) { top: 20%; left: 85%; animation-delay: 1s; }
+  .petal:nth-child(3) { top: 60%; left: 5%; animation-delay: 2s; }
+  .petal:nth-child(4) { top: 70%; left: 90%; animation-delay: 0.5s; }
+  .petal:nth-child(5) { top: 40%; left: 92%; animation-delay: 3s; }
+  .petal:nth-child(6) { top: 80%; left: 15%; animation-delay: 1.5s; }
+
+  @keyframes float-petal {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(10deg); }
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--sakura-deep), var(--gold));
+    color: white;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    padding: 0.4rem 1.2rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(232,131,154,0.4);
+  }
+
+  header h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(2rem, 6vw, 3.8rem);
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1.2;
+    position: relative;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  header h1 span {
+    color: var(--sakura-deep);
+  }
+
+  .header-sub {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.1rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.15em;
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  .header-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .header-stat {
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(245,184,196,0.5);
+    border-radius: 12px;
+    padding: 0.8rem 1.5rem;
+    text-align: center;
+    backdrop-filter: blur(8px);
+  }
+
+  .header-stat .num {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--sakura-deep);
+    display: block;
+  }
+
+  .header-stat .label {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.1em;
+  }
+
+  /* ナビ */
+  nav {
+    background: white;
+    border-bottom: 2px solid var(--sakura-light);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(245,184,196,0.2);
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow-x: auto;
+  }
+
+  nav a {
+    display: block;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    transition: all 0.2s;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+  }
+
+  nav a:hover {
+    color: var(--sakura-deep);
+    border-bottom-color: var(--sakura-deep);
+  }
+
+  /* セクション共通 */
+  section {
+    padding: 4rem 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: var(--ink);
+    position: relative;
+  }
+
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--sakura-deep), var(--gold));
+    margin: 0.8rem auto 0;
+    border-radius: 2px;
+  }
+
+  /* 審査員 */
+  #judges {
+    background: white;
+    border-radius: 24px;
+    padding: 3rem 2rem;
+    margin: 2rem auto;
+    max-width: 1100px;
+    box-shadow: 0 4px 30px rgba(245,184,196,0.15);
+    border: 1px solid var(--sakura-light);
+  }
+
+  .judges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .judge-card {
+    background: linear-gradient(135deg, var(--sakura-light), #fff9f0);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid rgba(245,184,196,0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .judge-card::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 80px; height: 80px;
+    background: radial-gradient(circle, rgba(245,184,196,0.3), transparent);
+    border-radius: 50%;
+  }
+
+  .judge-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(232,131,154,0.2);
+  }
+
+  .judge-avatar {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--sakura-deep), var(--gold));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 2rem;
+    box-shadow: 0 4px 15px rgba(232,131,154,0.3);
+  }
+
+  .judge-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+
+  .judge-title {
+    font-size: 0.8rem;
+    color: var(--sakura-deep);
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+
+  .judge-desc {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  /* 採点基準 */
+  .scoring-info {
+    background: linear-gradient(135deg, #fdf0f5, #fef9ee);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    border: 1px solid var(--gold-light);
+    text-align: center;
+  }
+
+  .scoring-items {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .scoring-item {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    min-width: 140px;
+    border: 1px solid var(--sakura-light);
+  }
+
+  .scoring-item .icon { font-size: 1.5rem; margin-bottom: 0.3rem; }
+  .scoring-item .name { font-weight: 700; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.2rem; }
+  .scoring-item .scale { font-size: 0.75rem; color: var(--ink-soft); }
+
+  /* ランキング */
+  #ranking {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+  }
+
+  /* ベストバイ */
+  .bestbuy {
+    background: linear-gradient(135deg, #fff7e0, #ffeef5);
+    border: 2px solid var(--gold);
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(201,168,76,0.2);
+  }
+
+  .bestbuy::before {
+    content: '🏆';
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 5rem;
+    opacity: 0.15;
+  }
+
+  .bestbuy-label {
+    display: inline-block;
+    background: var(--gold);
+    color: white;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+  }
+
+  .bestbuy h3 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+
+  .bestbuy-maker {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.5rem;
+  }
+
+  .bestbuy-score {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .score-big {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .score-label { font-size: 0.8rem; color: var(--ink-soft); }
+
+  .bestbuy-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    background: rgba(201,168,76,0.15);
+    color: #8a6820;
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 20px;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+
+  /* ランキングリスト */
+  .rank-filter {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+  }
+
+  .filter-btn {
+    background: white;
+    border: 1.5px solid var(--sakura-light);
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--ink-soft);
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--sakura-deep);
+    border-color: var(--sakura-deep);
+    color: white;
+  }
+
+  .rank-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+  }
+
+  .rank-table thead th {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.08em;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .rank-table thead th:first-child { text-align: left; }
+
+  .rank-row {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+
+  .rank-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(232,131,154,0.15);
+  }
+
+  .rank-row td {
+    padding: 1rem;
+    vertical-align: middle;
+  }
+
+  .rank-row td:first-child {
+    border-radius: 12px 0 0 12px;
+    padding-left: 1.2rem;
+  }
+
+  .rank-row td:last-child {
+    border-radius: 0 12px 12px 0;
+    padding-right: 1.2rem;
+  }
+
+  .rank-num {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    width: 50px;
+    text-align: center;
+    color: var(--ink-soft);
+  }
+
+  .rank-num.top1 { color: #c9a84c; }
+  .rank-num.top2 { color: #9ba3a8; }
+  .rank-num.top3 { color: #b87333; }
+
+  .rank-emoji { font-size: 1.5rem; }
+
+  .rank-info { flex: 1; }
+  .rank-name { font-weight: 700; font-size: 1rem; color: var(--ink); margin-bottom: 0.15rem; }
+  .rank-maker { font-size: 0.78rem; color: var(--ink-soft); }
+
+  .rank-region {
+    font-size: 0.75rem;
+    background: var(--matcha-light);
+    color: #3d6b43;
+    border-radius: 6px;
+    padding: 0.2rem 0.6rem;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .rank-score-total {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--sakura-deep);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .mini-scores {
+    display: flex;
+    gap: 0.3rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .mini-score {
+    font-size: 0.7rem;
+    text-align: center;
+  }
+
+  .mini-score .val {
+    display: block;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .mini-score .lbl {
+    color: var(--ink-soft);
+    font-size: 0.65rem;
+  }
+
+  /* スター */
+  .stars {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+  }
+
+  .star-fill { color: var(--gold); }
+  .star-empty { color: #ddd; }
+
+  /* 審査員別 */
+  #judges-results {
+    background: #fdf7ff;
+    padding: 4rem 1.5rem;
+  }
+
+  #judges-results > * {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .judges-tabs {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .judge-tab {
+    background: white;
+    border: 2px solid var(--sakura-light);
+    border-radius: 30px;
+    padding: 0.6rem 1.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--ink-soft);
+  }
+
+  .judge-tab.active {
+    background: var(--sakura-deep);
+    border-color: var(--sakura-deep);
+    color: white;
+    box-shadow: 0 4px 15px rgba(232,131,154,0.3);
+  }
+
+  .judge-panel { display: none; }
+  .judge-panel.active { display: block; }
+
+  .judge-panel-header {
+    background: linear-gradient(135deg, white, var(--sakura-light));
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--sakura-light);
+  }
+
+  .judge-panel-avatar {
+    width: 60px; height: 60px;
+    background: linear-gradient(135deg, var(--sakura-deep), var(--gold));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .judge-panel-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  .judge-panel-sub {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    margin-top: 0.2rem;
+  }
+
+  /* フッター */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 2.5rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+  }
+
+  footer .footer-logo {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.3rem;
+    color: white;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* アニメーション */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* レスポンシブ */
+  @media (max-width: 600px) {
+    .mini-scores { display: none; }
+    .rank-table thead th:nth-child(4),
+    .rank-table thead th:nth-child(5) { display: none; }
+    .rank-row td:nth-child(4),
+    .rank-row td:nth-child(5) { display: none; }
+  }
+
+  /* 区切りセクション */
+  .section-divider {
+    text-align: center;
+    padding: 2rem;
+    color: var(--sakura-deep);
+    font-size: 1.5rem;
+    letter-spacing: 0.3em;
+  }
+
+  .top3-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .top3-card {
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    position: relative;
+    border: 2px solid transparent;
+    transition: transform 0.3s;
+  }
+  .top3-card:hover { transform: translateY(-4px); }
+
+  .top3-card.gold {
+    background: linear-gradient(135deg, #fff9e8, #fff3cc);
+    border-color: var(--gold);
+    grid-row: span 1;
+  }
+  .top3-card.silver {
+    background: linear-gradient(135deg, #f5f7f9, #eaecee);
+    border-color: #b0b8bf;
+  }
+  .top3-card.bronze {
+    background: linear-gradient(135deg, #fdf0e8, #f5e0cc);
+    border-color: #c09060;
+  }
+
+  .top3-medal { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .top3-rank {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+  .top3-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+  .top3-maker { font-size: 0.75rem; color: var(--ink-soft); margin-bottom: 0.5rem; }
+  .top3-score-num {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  .gold .top3-score-num { color: #c9a84c; }
+  .silver .top3-score-num { color: #7a8a94; }
+  .bronze .top3-score-num { color: #a06830; }
+
+  .top3-region-tag {
+    display: inline-block;
+    background: rgba(122,158,126,0.15);
+    color: #3d6b43;
+    border-radius: 10px;
+    padding: 0.15rem 0.6rem;
+    font-size: 0.72rem;
+    margin-top: 0.4rem;
+    font-weight: 500;
+  }
+
+  .about-section {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin-bottom: 3rem;
+    border: 1px solid var(--sakura-light);
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .about-section p {
+    font-size: 0.95rem;
+    line-height: 2;
+    color: var(--ink-soft);
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header>
+  <div class="petals">
+    <span class="petal">🌸</span>
+    <span class="petal">🍡</span>
+    <span class="petal">🌸</span>
+    <span class="petal">🍡</span>
+    <span class="petal">🌸</span>
+    <span class="petal">🍡</span>
+  </div>
+  <div class="header-badge">✦ 第一回 ✦</div>
+  <h1>日本の<span>銘菓</span>品評会</h1>
+  <p class="header-sub">全国各地の名品を三名の審査員が徹底審査</p>
+  <div class="header-stats">
+    <div class="header-stat">
+      <span class="num">38</span>
+      <span class="label">出品数</span>
+    </div>
+    <div class="header-stat">
+      <span class="num">3</span>
+      <span class="label">審査員</span>
+    </div>
+    <div class="header-stat">
+      <span class="num">8</span>
+      <span class="label">地域</span>
+    </div>
+    <div class="header-stat">
+      <span class="num">3</span>
+      <span class="label">審査基準</span>
+    </div>
+  </div>
+</header>
+
+<!-- ナビゲーション -->
+<nav>
+  <ul>
+    <li><a href="#about">品評会について</a></li>
+    <li><a href="#judgesSection">審査員</a></li>
+    <li><a href="#ranking">総合ランキング</a></li>
+    <li><a href="#judges-results">審査員別</a></li>
+  </ul>
+</nav>
+
+<!-- 品評会について -->
+<div id="about" style="padding: 3rem 1.5rem 0; max-width: 1100px; margin: 0 auto;">
+  <div class="about-section fade-in">
+    <div class="section-title">品評会について</div>
+    <p>
+      「第一回 日本の銘菓 品評会」は、北海道から沖縄まで、全国各地の選りすぐりの銘菓を集め、
+      三名の審査員が独自性・定番度・好みの三つの観点から丁寧に審査した品評会です。
+      地域に根ざした文化と、職人たちが紡ぐ味の物語を、ぜひお楽しみください。
+    </p>
+  </div>
+</div>
+
+<!-- 採点基準 -->
+<div style="max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;">
+  <div class="scoring-info fade-in">
+    <div style="font-family: 'Shippori Mincho', serif; font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.3rem; letter-spacing: 0.1em;">審査基準</div>
+    <div style="font-size: 0.82rem; color: var(--ink-soft);">各審査員が以下の3項目を1〜3点で採点し、総合スコアを算出しました</div>
+    <div class="scoring-items">
+      <div class="scoring-item">
+        <div class="icon">✨</div>
+        <div class="name">独自性</div>
+        <div class="scale">1〜3点</div>
+      </div>
+      <div class="scoring-item">
+        <div class="icon">📜</div>
+        <div class="name">定番度</div>
+        <div class="scale">1〜3点</div>
+      </div>
+      <div class="scoring-item">
+        <div class="icon">💕</div>
+        <div class="name">好み点</div>
+        <div class="scale">1〜5点 × 3名</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 審査員 -->
+<div id="judgesSection" style="padding: 1rem 1.5rem 0;">
+  <div id="judges" class="fade-in">
+    <div class="section-title">審査員紹介</div>
+    <div class="judges-grid">
+      <div class="judge-card">
+        <div class="judge-avatar">🧑</div>
+        <div class="judge-name">萩野谷</div>
+        <div class="judge-title">審査員</div>
+        <div class="judge-desc">
+          全国各地の和菓子・郷土菓子に精通。
+          地域の文化や風土を反映した「独自性」に厳しい眼差しを向ける。
+        </div>
+      </div>
+      <div class="judge-card">
+        <div class="judge-avatar">👩</div>
+        <div class="judge-name">安本</div>
+        <div class="judge-title">審査員</div>
+        <div class="judge-desc">
+          洋菓子から和菓子まで幅広い経験を持つ。
+          素材の良さと伝統的な「定番度」を大切にする審査スタイル。
+        </div>
+      </div>
+      <div class="judge-card">
+        <div class="judge-avatar">🧑‍🦱</div>
+        <div class="judge-name">中村</div>
+        <div class="judge-title">審査員</div>
+        <div class="judge-desc">
+          食文化ライターとして全国を食べ歩く。
+          食べる喜びと出会いを大切にし、素直な「好み」を評価に反映。
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 総合ランキング -->
+<section id="ranking">
+  <div class="section-title">総合ランキング</div>
+
+  <!-- トップ3 -->
+  <div class="top3-grid fade-in">
+    <div class="top3-card gold">
+      <div class="top3-medal">🥇</div>
+      <div class="top3-rank">第１位</div>
+      <div class="top3-name">藻なかサブレ</div>
+      <div class="top3-maker">梅花堂</div>
+      <div class="top3-score-num">4.87</div>
+      <div><span class="top3-region-tag">宮城県</span></div>
+    </div>
+    <div class="top3-card silver">
+      <div class="top3-medal">🥈</div>
+      <div class="top3-rank">第２位</div>
+      <div class="top3-name">ドライいぶりがっこ＆スモークナッツ</div>
+      <div class="top3-maker">伊藤漬物本舗</div>
+      <div class="top3-score-num">4.80</div>
+      <div><span class="top3-region-tag">秋田県</span></div>
+    </div>
+    <div class="top3-card bronze">
+      <div class="top3-medal">🥉</div>
+      <div class="top3-rank">第３位</div>
+      <div class="top3-name">天狗力餅</div>
+      <div class="top3-maker">錦花堂</div>
+      <div class="top3-score-num">4.53</div>
+      <div><span class="top3-region-tag">和歌山県</span></div>
+    </div>
+  </div>
+
+  <!-- 地域フィルター -->
+  <div class="rank-filter fade-in">
+    <button class="filter-btn active" onclick="filterRanking('all', this)">すべて</button>
+    <button class="filter-btn" onclick="filterRanking('北海道', this)">北海道</button>
+    <button class="filter-btn" onclick="filterRanking('東北', this)">東北</button>
+    <button class="filter-btn" onclick="filterRanking('中部', this)">中部</button>
+    <button class="filter-btn" onclick="filterRanking('関東', this)">関東</button>
+    <button class="filter-btn" onclick="filterRanking('近畿', this)">近畿</button>
+    <button class="filter-btn" onclick="filterRanking('中国', this)">中国</button>
+    <button class="filter-btn" onclick="filterRanking('四国', this)">四国</button>
+    <button class="filter-btn" onclick="filterRanking('九州', this)">九州</button>
+    <button class="filter-btn" onclick="filterRanking('沖縄', this)">沖縄</button>
+  </div>
+
+  <!-- ランキングテーブル -->
+  <table class="rank-table fade-in" id="rankingTable">
+    <thead>
+      <tr>
+        <th style="text-align:left; padding-left:1.2rem;">順位</th>
+        <th style="text-align:left;">菓子名</th>
+        <th>地域</th>
+        <th>独自性</th>
+        <th>定番度</th>
+        <th>総合スコア</th>
+      </tr>
+    </thead>
+    <tbody id="rankingBody">
+    </tbody>
+  </table>
+</section>
+
+<div class="section-divider">✦ ✦ ✦</div>
+
+<!-- 審査員別 -->
+<div id="judges-results">
+  <div style="max-width:1100px; margin:0 auto; padding-bottom: 4rem;">
+    <div class="section-title" style="margin-bottom:1.5rem;">審査員別 結果</div>
+    <div class="judges-tabs">
+      <button class="judge-tab active" onclick="switchJudge('hagino', this)">萩野谷</button>
+      <button class="judge-tab" onclick="switchJudge('yasumoto', this)">安本</button>
+      <button class="judge-tab" onclick="switchJudge('nakamura', this)">中村</button>
+    </div>
+
+    <!-- 萩野谷 -->
+    <div id="panel-hagino" class="judge-panel active">
+      <div class="judge-panel-header">
+        <div class="judge-panel-avatar">🧑</div>
+        <div>
+          <div class="judge-panel-name">萩野谷 の審査結果</div>
+          <div class="judge-panel-sub">独自性・定番度・好みをそれぞれ厳格に評価</div>
+        </div>
+      </div>
+      <table class="rank-table">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding-left:1.2rem; width:60px;">順位</th>
+            <th style="text-align:left;">菓子名</th>
+            <th>独自性</th>
+            <th>定番度</th>
+            <th>好み</th>
+          </tr>
+        </thead>
+        <tbody id="haginoBody"></tbody>
+      </table>
+    </div>
+
+    <!-- 安本 -->
+    <div id="panel-yasumoto" class="judge-panel">
+      <div class="judge-panel-header">
+        <div class="judge-panel-avatar">👩</div>
+        <div>
+          <div class="judge-panel-name">安本 の審査結果</div>
+          <div class="judge-panel-sub">素材と伝統を重視した評価スタイル</div>
+        </div>
+      </div>
+      <table class="rank-table">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding-left:1.2rem; width:60px;">順位</th>
+            <th style="text-align:left;">菓子名</th>
+            <th>独自性</th>
+            <th>定番度</th>
+            <th>好み</th>
+          </tr>
+        </thead>
+        <tbody id="yasumotoBody"></tbody>
+      </table>
+    </div>
+
+    <!-- 中村 -->
+    <div id="panel-nakamura" class="judge-panel">
+      <div class="judge-panel-header">
+        <div class="judge-panel-avatar">🧑‍🦱</div>
+        <div>
+          <div class="judge-panel-name">中村 の審査結果</div>
+          <div class="judge-panel-sub">素直な食の喜びを評価に反映</div>
+        </div>
+      </div>
+      <table class="rank-table">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding-left:1.2rem; width:60px;">順位</th>
+            <th style="text-align:left;">菓子名</th>
+            <th>独自性</th>
+            <th>定番度</th>
+            <th>好み</th>
+          </tr>
+        </thead>
+        <tbody id="nakamuraBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- フッター -->
+<footer>
+  <div class="footer-logo">🍡 日本の銘菓 品評会 🍡</div>
+  <p>第一回 全国銘菓品評会 ©  2025</p>
+</footer>
+
+<script>
+// データ
+const allData = [
+  { region:'北海道', pref:'北海道', maker:'（有）御菓子司小鹿', name:'流氷まんじゅう', dokuji:1.667, teiban:2, konoTotal:11, score:3.667, hDokuji:2, yDokuji:1, nDokuji:2, hTeiban:2, yTeiban:2, nTeiban:2, hKono:4, yKono:3, nKono:4 },
+  { region:'北海道', pref:'北海道', maker:'千秋庵製菓株式会社', name:'山親爺', dokuji:1, teiban:2, konoTotal:9, score:3, hDokuji:1, yDokuji:1, nDokuji:1, hTeiban:2, yTeiban:2, nTeiban:2, hKono:3, yKono:3, nKono:3 },
+  { region:'北海道', pref:'北海道', maker:'千秋庵製菓株式会社', name:'ノースマン', dokuji:1.667, teiban:2, konoTotal:11, score:3.667, hDokuji:3, yDokuji:1, nDokuji:1, hTeiban:2, yTeiban:2, nTeiban:2, hKono:5, yKono:3, nKono:3 },
+  { region:'北海道', pref:'北海道', maker:'(株)五勝手屋本舗', name:'五勝手屋羊羹', dokuji:1.667, teiban:2.333, konoTotal:10, score:3.6, hDokuji:2, yDokuji:1, nDokuji:2, hTeiban:2, yTeiban:2, nTeiban:3, hKono:4, yKono:3, nKono:3 },
+  { region:'東北', pref:'青森', maker:'大湊屋製菓', name:'リンゴサブレ', dokuji:1, teiban:2, konoTotal:7, score:2.6, hDokuji:1, yDokuji:1, nDokuji:1, hTeiban:2, yTeiban:2, nTeiban:2, hKono:2, yKono:2, nKono:3 },
+  { region:'東北', pref:'秋田', maker:'菓子舗榮太楼', name:'さなづら', dokuji:2.667, teiban:2, konoTotal:11, score:4.067, hDokuji:3, yDokuji:2, nDokuji:3, hTeiban:2, yTeiban:2, nTeiban:2, hKono:5, yKono:2, nKono:4 },
+  { region:'東北', pref:'秋田', maker:'伊藤漬物本舗', name:'ドライいぶりがっこ＆スモークナッツ', dokuji:2.667, teiban:2.333, konoTotal:14, score:4.8, hDokuji:3, yDokuji:3, nDokuji:2, hTeiban:2, yTeiban:2, nTeiban:3, hKono:4, yKono:5, nKono:5 },
+  { region:'東北', pref:'秋田', maker:'杉山壽山堂', name:'うんぺい', dokuji:2, teiban:1, konoTotal:8, score:2.8, hDokuji:2, yDokuji:2, nDokuji:2, hTeiban:1, yTeiban:1, nTeiban:1, hKono:3, yKono:2, nKono:3 },
+  { region:'東北', pref:'山形', maker:'じんだん本舗大江', name:'じんだん大福', dokuji:2, teiban:2.667, konoTotal:10, score:3.867, hDokuji:2, yDokuji:2, nDokuji:2, hTeiban:2, yTeiban:3, nTeiban:3, hKono:3, yKono:3, nKono:4 },
+  { region:'東北', pref:'宮城', maker:'梅花堂', name:'藻なかサブレ', dokuji:3, teiban:2.667, konoTotal:13, score:4.867, hDokuji:3, yDokuji:3, nDokuji:3, hTeiban:3, yTeiban:2, nTeiban:3, hKono:4, yKono:4, nKono:5 },
+  { region:'東北', pref:'宮城', maker:'梅花堂', name:'東太平洋', dokuji:1.667, teiban:1.333, konoTotal:9, score:3, hDokuji:2, yDokuji:2, nDokuji:1, hTeiban:1, yTeiban:1, nTeiban:2, hKono:3, yKono:3, nKono:3 },
+  { region:'中部', pref:'新潟', maker:'小竹製菓', name:'笹だんごパン', dokuji:2.333, teiban:2, konoTotal:9, score:3.533, hDokuji:3, yDokuji:2, nDokuji:2, hTeiban:2, yTeiban:2, nTeiban:2, hKono:3, yKono:3, nKono:3 },
+  { region:'中部', pref:'新潟', maker:'お菓子処 菜菓亭', name:'お米咲く咲く', dokuji:2.333, teiban:2.333, konoTotal:11, score:4.067, hDokuji:2, yDokuji:2, nDokuji:3, hTeiban:2, yTeiban:2, nTeiban:3, hKono:3, yKono:3, nKono:5 },
+  { region:'中部', pref:'富山', maker:'おわら玉天本舗', name:'おわら玉天', dokuji:2.667, teiban:2, konoTotal:6, score:3.067, hDokuji:3, yDokuji:3, nDokuji:2, hTeiban:2, yTeiban:2, nTeiban:2, hKono:1, yKono:2, nKono:3 },
+  { region:'中部', pref:'福井', maker:'新珠食品', name:'羽二重餅', dokuji:1.667, teiban:2.333, konoTotal:8, score:3.2, hDokuji:2, yDokuji:2, nDokuji:1, hTeiban:2, yTeiban:2, nTeiban:3, hKono:3, yKono:2, nKono:3 },
+  { region:'中部', pref:'福井', maker:'昆布屋孫兵衛', name:'メープルサブレ', dokuji:1.333, teiban:2.333, konoTotal:10, score:3.467, hDokuji:1, yDokuji:2, nDokuji:1, hTeiban:3, yTeiban:2, nTeiban:2, hKono:4, yKono:3, nKono:3 },
+  { region:'中部', pref:'長野', maker:'ヌーベル梅林堂', name:'くるみやまびこ', dokuji:2, teiban:2.333, konoTotal:9, score:3.533, hDokuji:2, yDokuji:2, nDokuji:2, hTeiban:2, yTeiban:2, nTeiban:3, hKono:3, yKono:3, nKono:3 },
+  { region:'中部', pref:'長野', maker:'信州 有喜堂', name:'幻のざらめ味噌煎餅(くるみ味噌)', dokuji:2, teiban:2.333, konoTotal:11, score:3.933, hDokuji:2, yDokuji:2, nDokuji:2, hTeiban:2, yTeiban:2, nTeiban:3, hKono:3, yKono:4, nKono:4 },
+  { region:'関東', pref:'茨城', maker:'亀じるし', name:'のし梅', dokuji:2, teiban:2, konoTotal:10, score:3.6, hDokuji:2, yDokuji:1, nDokuji:3, hTeiban:2, yTeiban:2, nTeiban:2, hKono:4, yKono:2, nKono:4 },
+  { region:'関東', pref:'茨城', maker:'亀じるし', name:'水戸の梅', dokuji:2.333, teiban:2.333, konoTotal:13, score:4.467, hDokuji:3, yDokuji:2, nDokuji:2, hTeiban:2, yTeiban:2, nTeiban:3, hKono:5, yKono:4, nKono:4 },
+  { region:'関東', pref:'茨城', maker:'亀じるし', name:'吉原殿中', dokuji:2, teiban:2.333, konoTotal:10, score:3.733, hDokuji:2, yDokuji:2, nDokuji:2, hTeiban:2, yTeiban:2, nTeiban:3, hKono:4, yKono:3, nKono:3 },
+  { region:'関東', pref:'静岡', maker:'やまだいち', name:'安倍川餅', dokuji:1, teiban:2.333, konoTotal:10, score:3.333, hDokuji:1, yDokuji:1, nDokuji:1, hTeiban:2, yTeiban:2, nTeiban:3, hKono:3, yKono:3, nKono:4 },
+  { region:'近畿', pref:'和歌山', maker:'錦花堂', name:'天狗力餅', dokuji:2.333, teiban:3, konoTotal:12, score:4.533, hDokuji:3, yDokuji:2, nDokuji:2, hTeiban:3, yTeiban:3, nTeiban:3, hKono:3, yKono:4, nKono:5 },
+  { region:'近畿', pref:'兵庫', maker:'東洋オリーブ株式会社', name:'オリーブグラッセ', dokuji:2.667, teiban:1.333, konoTotal:10, score:3.6, hDokuji:3, yDokuji:2, nDokuji:3, hTeiban:1, yTeiban:1, nTeiban:2, hKono:4, yKono:2, nKono:4 },
+  { region:'中国', pref:'広島', maker:'はっさく屋', name:'はっさく大福', dokuji:2.667, teiban:2, konoTotal:13, score:4.467, hDokuji:3, yDokuji:2, nDokuji:3, hTeiban:2, yTeiban:2, nTeiban:2, hKono:5, yKono:4, nKono:4 },
+  { region:'中国', pref:'広島', maker:'はっさく屋', name:'みかん大福', dokuji:2.333, teiban:2, konoTotal:12, score:4.133, hDokuji:2, yDokuji:2, nDokuji:3, hTeiban:2, yTeiban:2, nTeiban:2, hKono:4, yKono:3, nKono:5 },
+  { region:'中国', pref:'島根', maker:'桂月堂', name:'若草', dokuji:1.667, teiban:1, konoTotal:4, score:1.867, hDokuji:1, yDokuji:2, nDokuji:2, hTeiban:1, yTeiban:1, nTeiban:1, hKono:1, yKono:1, nKono:2 },
+  { region:'四国', pref:'徳島', maker:'パール洋菓子店', name:'パールのレモンケーキ', dokuji:1.667, teiban:2.667, konoTotal:10, score:3.733, hDokuji:1, yDokuji:2, nDokuji:2, hTeiban:3, yTeiban:2, nTeiban:3, hKono:4, yKono:2, nKono:4 },
+  { region:'四国', pref:'高知', maker:'西川屋老舗', name:'元祖けんぴ', dokuji:2.333, teiban:1, konoTotal:9, score:3.133, hDokuji:2, yDokuji:2, nDokuji:3, hTeiban:1, yTeiban:1, nTeiban:1, hKono:4, yKono:2, nKono:3 },
+  { region:'四国', pref:'高知', maker:'横田きのこ有限会社', name:'おつまみえのき', dokuji:2.667, teiban:2, konoTotal:13, score:4.467, hDokuji:3, yDokuji:2, nDokuji:3, hTeiban:2, yTeiban:2, nTeiban:2, hKono:5, yKono:4, nKono:4 },
+  { region:'九州', pref:'福岡', maker:'石村萬盛堂', name:'鶴乃子', dokuji:1.667, teiban:2, konoTotal:7, score:2.867, hDokuji:2, yDokuji:1, nDokuji:2, hTeiban:2, yTeiban:2, nTeiban:2, hKono:2, yKono:2, nKono:3 },
+  { region:'九州', pref:'長崎', maker:'つたや總本家', name:'カスドース', dokuji:2, teiban:2.333, konoTotal:8, score:3.333, hDokuji:2, yDokuji:2, nDokuji:2, hTeiban:3, yTeiban:2, nTeiban:2, hKono:3, yKono:2, nKono:3 },
+  { region:'九州', pref:'熊本', maker:'福田屋', name:'栗好き', dokuji:2.667, teiban:2.333, konoTotal:12, score:4.4, hDokuji:3, yDokuji:2, nDokuji:3, hTeiban:2, yTeiban:2, nTeiban:3, hKono:5, yKono:3, nKono:4 },
+  { region:'九州', pref:'大分', maker:'ハタ製菓', name:'ざぼん漬け', dokuji:2.333, teiban:2, konoTotal:9, score:3.533, hDokuji:2, yDokuji:3, nDokuji:2, hTeiban:1, yTeiban:2, nTeiban:3, hKono:2, yKono:3, nKono:4 },
+  { region:'九州', pref:'鹿児島', maker:'株式会社南国物産', name:'あくまき', dokuji:2.667, teiban:1, konoTotal:4, score:2.267, hDokuji:3, yDokuji:3, nDokuji:2, hTeiban:1, yTeiban:1, nTeiban:1, hKono:1, yKono:1, nKono:2 },
+  { region:'九州', pref:'鹿児島', maker:'梅月堂', name:'ゆのせん', dokuji:2, teiban:1.667, konoTotal:7, score:2.867, hDokuji:2, yDokuji:2, nDokuji:2, hTeiban:1, yTeiban:2, nTeiban:2, hKono:2, yKono:2, nKono:3 },
+  { region:'沖縄', pref:'沖縄', maker:'株式会社オキネシア', name:'ごまふくろう', dokuji:1.667, teiban:1.667, konoTotal:8, score:2.933, hDokuji:2, yDokuji:2, nDokuji:1, hTeiban:2, yTeiban:1, nTeiban:2, hKono:3, yKono:2, nKono:3 },
+];
+
+function getStars(score, max) {
+  const filled = Math.round(score);
+  let html = '<div class="stars">';
+  for (let i = 1; i <= max; i++) {
+    html += `<span class="${i <= filled ? 'star-fill' : 'star-empty'}">★</span>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function getRankClass(rank) {
+  if (rank === 1) return 'top1';
+  if (rank === 2) return 'top2';
+  if (rank === 3) return 'top3';
+  return '';
+}
+
+function getMedal(rank) {
+  if (rank === 1) return '🥇';
+  if (rank === 2) return '🥈';
+  if (rank === 3) return '🥉';
+  return '';
+}
+
+// 総合ランキング
+let currentFilter = 'all';
+function renderRanking(filter) {
+  const sorted = [...allData].sort((a, b) => b.score - a.score);
+  const filtered = filter === 'all' ? sorted : sorted.filter(d => d.region === filter);
+  
+  let globalRank = 0;
+  const body = document.getElementById('rankingBody');
+  body.innerHTML = '';
+  
+  filtered.forEach((item, i) => {
+    const rank = i + 1;
+    const cls = getRankClass(rank);
+    const medal = getMedal(rank);
+    const row = document.createElement('tr');
+    row.className = 'rank-row';
+    row.setAttribute('data-region', item.region);
+    row.innerHTML = `
+      <td>
+        <div class="rank-num ${cls}">${medal || rank}</div>
+      </td>
+      <td>
+        <div class="rank-name">${item.name}</div>
+        <div class="rank-maker">${item.maker}</div>
+      </td>
+      <td style="text-align:center;"><span class="rank-region">${item.pref}</span></td>
+      <td style="text-align:center;">
+        <div class="mini-score">
+          <span class="val">${item.dokuji.toFixed(1)}</span>
+          <span class="lbl">/ 3.0</span>
+        </div>
+      </td>
+      <td style="text-align:center;">
+        <div class="mini-score">
+          <span class="val">${item.teiban.toFixed(1)}</span>
+          <span class="lbl">/ 3.0</span>
+        </div>
+      </td>
+      <td>
+        <div class="rank-score-total">${item.score.toFixed(2)}</div>
+      </td>
+    `;
+    body.appendChild(row);
+  });
+}
+
+function filterRanking(region, btn) {
+  currentFilter = region;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderRanking(region);
+}
+
+// 審査員別
+function renderJudge(judgeId, bodyId, getDokuji, getTeiban, getKono) {
+  const sorted = [...allData].sort((a, b) => {
+    const aScore = getDokuji(a) + getTeiban(a) + getKono(a);
+    const bScore = getDokuji(b) + getTeiban(b) + getKono(b);
+    return bScore - aScore;
+  });
+  
+  const body = document.getElementById(bodyId);
+  body.innerHTML = '';
+  sorted.forEach((item, i) => {
+    const rank = i + 1;
+    const cls = getRankClass(rank);
+    const medal = getMedal(rank);
+    const row = document.createElement('tr');
+    row.className = 'rank-row';
+    row.innerHTML = `
+      <td><div class="rank-num ${cls}">${medal || rank}</div></td>
+      <td>
+        <div class="rank-name">${item.name}</div>
+        <div class="rank-maker">${item.pref} / ${item.maker}</div>
+      </td>
+      <td style="text-align:center;">${getStars(getDokuji(item), 3)}</td>
+      <td style="text-align:center;">${getStars(getTeiban(item), 3)}</td>
+      <td style="text-align:center;">${getStars(getKono(item), 5)}</td>
+    `;
+    body.appendChild(row);
+  });
+}
+
+function switchJudge(id, btn) {
+  document.querySelectorAll('.judge-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.judge-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// フェードイン
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// 初期描画
+renderRanking('all');
+renderJudge('hagino', 'haginoBody', d => d.hDokuji, d => d.hTeiban, d => d.hKono);
+renderJudge('yasumoto', 'yasumotoBody', d => d.yDokuji, d => d.yTeiban, d => d.yKono);
+renderJudge('nakamura', 'nakamuraBody', d => d.nDokuji, d => d.nTeiban, d => d.nKono);
+</script>
+</body>
+</html>
