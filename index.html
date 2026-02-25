@@ -299,8 +299,23 @@
     display: flex;
     justify-content: center;
     gap: 1.5rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-top: 1.2rem;
+  }
+
+  @media (max-width: 600px) {
+    .scoring-items {
+      flex-wrap: nowrap;
+      gap: 0.6rem;
+    }
+    .scoring-item {
+      min-width: 0;
+      flex: 1;
+      padding: 0.7rem 0.5rem;
+    }
+    .scoring-item .icon { font-size: 1.2rem; }
+    .scoring-item .name { font-size: 0.8rem; }
+    .scoring-item .scale { font-size: 0.7rem; }
   }
 
   .scoring-item {
@@ -674,23 +689,91 @@
     transform: translateY(0);
   }
 
-  /* レスポンシブ */
+  /* ========================
+     スマホ用レイアウト
+  ======================== */
   @media (max-width: 600px) {
     .mini-scores { display: none; }
-    /* 総合ランキングテーブルは独自性・定番度を非表示（スコアのみ） */
-    #rankingTable thead th:nth-child(4),
-    #rankingTable thead th:nth-child(5) { display: none; }
-    #rankingTable .rank-row td:nth-child(4),
-    #rankingTable .rank-row td:nth-child(5) { display: none; }
-    /* 審査員別テーブルは横スクロールで全列表示 */
+
+    /* 審査員別テーブルは横スクロール */
     .judge-panel { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .judge-panel .rank-table {
-      min-width: 480px;
-    }
-    /* 菓子名が横に表示されるよう最小幅を確保 */
-    .rank-name { white-space: nowrap; }
-    .rank-maker { white-space: nowrap; }
+    .judge-panel .rank-table { min-width: 480px; }
+
+    /* 総合ランキング：テーブルを使わずカード形式 */
+    #rankingTable { display: none; }
+    #rankingCardList { display: block; }
   }
+
+  /* 総合ランキングカード（スマホ用） */
+  #rankingCardList {
+    display: none; /* PCでは非表示 */
+  }
+
+  .rank-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    padding: 0.9rem 1rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .rank-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,131,154,0.15); }
+
+  .rank-card-num {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    width: 36px;
+    text-align: center;
+    flex-shrink: 0;
+    color: var(--ink-soft);
+  }
+  .rank-card-num.top1 { color: #c9a84c; }
+  .rank-card-num.top2 { color: #9ba3a8; }
+  .rank-card-num.top3 { color: #b87333; }
+
+  .rank-card-info { flex: 1; min-width: 0; }
+  .rank-card-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .rank-card-sub {
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    margin-top: 0.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .rank-card-score {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--sakura-deep);
+    flex-shrink: 0;
+  }
+
+  .rank-card-region {
+    font-size: 0.7rem;
+    background: var(--matcha-light);
+    color: #3d6b43;
+    border-radius: 6px;
+    padding: 0.1rem 0.4rem;
+    flex-shrink: 0;
+    font-weight: 500;
+  }
+
+  .rank-card.hidden-card { display: none; }
+  .rank-card.hidden-card.shown { display: flex; }
 
   /* 折りたたみボタン */
   .show-more-btn {
@@ -1194,7 +1277,10 @@
     <button class="filter-btn" onclick="filterRanking('沖縄', this)">沖縄</button>
   </div>
 
-  <!-- ランキングテーブル -->
+  <!-- ランキングカード（スマホ用） -->
+  <div id="rankingCardList"></div>
+
+  <!-- ランキングテーブル（PC用） -->
   <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
   <table class="rank-table fade-in" id="rankingTable" style="min-width: 520px;">
     <thead>
@@ -1406,6 +1492,29 @@ function renderRanking(filter) {
   
   const body = document.getElementById('rankingBody');
   body.innerHTML = '';
+
+  // スマホ用カード描画
+  const cardList = document.getElementById('rankingCardList');
+  if (cardList) {
+    cardList.innerHTML = '';
+    filtered.forEach((item, i) => {
+      const rank = i + 1;
+      const cls = getRankClass(rank);
+      const medal = getMedal(rank);
+      const card = document.createElement('div');
+      card.className = 'rank-card' + (rank > 5 ? ' hidden-card' : '');
+      card.innerHTML = `
+        <div class="rank-card-num ${cls}">${medal || rank}</div>
+        <div class="rank-card-info">
+          <div class="rank-card-name">${item.name}</div>
+          <div class="rank-card-sub">${item.maker}</div>
+        </div>
+        <span class="rank-card-region">${item.pref}</span>
+        <div class="rank-card-score">${item.score.toFixed(2)}</div>
+      `;
+      cardList.appendChild(card);
+    });
+  }
   
   filtered.forEach((item, i) => {
     const rank = i + 1;
@@ -1458,13 +1567,16 @@ function renderRanking(filter) {
 
 function toggleMoreRanking(btn) {
   const rows = document.querySelectorAll('.rank-row.hidden-row');
+  const cards = document.querySelectorAll('.rank-card.hidden-card');
   const isOpen = btn.classList.contains('open');
   if (isOpen) {
     rows.forEach(r => r.classList.remove('shown'));
+    cards.forEach(c => c.classList.remove('shown'));
     btn.textContent = '6位以下を見る ▼';
     btn.classList.remove('open');
   } else {
     rows.forEach(r => r.classList.add('shown'));
+    cards.forEach(c => c.classList.add('shown'));
     btn.textContent = '折りたたむ ▲';
     btn.classList.add('open');
   }
