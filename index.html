@@ -777,6 +777,170 @@
     max-width: 700px;
     margin: 0 auto;
   }
+
+  /* アコーディオン */
+  .accordion-btn {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+  }
+
+  .criteria-detail {
+    margin-top: 2rem;
+    border-top: 1px solid var(--sakura-light);
+    padding-top: 1.5rem;
+  }
+
+  .accordion-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: none;
+    border: 1.5px solid var(--sakura-light);
+    border-radius: 20px;
+    padding: 0.6rem 1.5rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--sakura-deep);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 500;
+    margin: 0 auto;
+    display: flex;
+    transition: all 0.2s;
+  }
+  .accordion-toggle:hover {
+    background: var(--sakura-light);
+  }
+  .accordion-toggle .arrow {
+    transition: transform 0.3s;
+    font-size: 0.7rem;
+  }
+  .accordion-toggle.open .arrow {
+    transform: rotate(180deg);
+  }
+
+  .accordion-body {
+    display: none;
+    margin-top: 1.5rem;
+    text-align: left;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .accordion-body.open { display: block; }
+
+  .criteria-block {
+    margin-bottom: 1.5rem;
+  }
+
+  .criteria-block h3 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .criteria-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px; height: 22px;
+    background: var(--sakura-deep);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .criteria-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .criteria-list li {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    padding: 0.3rem 0.8rem;
+    background: var(--sakura-light);
+    border-radius: 6px;
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+  }
+
+  .criteria-list li .score-label {
+    font-weight: 700;
+    color: var(--sakura-deep);
+    flex-shrink: 0;
+    min-width: 24px;
+  }
+
+  .rule-block {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--sakura-light);
+  }
+
+  .rule-block h3 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+  }
+
+  .rule-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .rule-list li {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .rule-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  .location-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: linear-gradient(135deg, var(--matcha-light), #e8f4ea);
+    border: 1px solid var(--matcha);
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    color: #3d6b43;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+  }
 </style>
 </head>
 <body>
@@ -828,11 +992,15 @@
 <div id="about" style="padding: 3rem 1.5rem 0; max-width: 1100px; margin: 0 auto;">
   <div class="about-section fade-in">
     <div class="section-title">品評会について</div>
+    <div class="location-badge">
+      📍 東京交通会館・有楽町周辺のアンテナショップ限定
+    </div>
     <p>
-      「第一回 日本の銘菓 品評会」は、北海道から沖縄まで、全国各地の選りすぐりの銘菓を集め、
+      「第一回 日本の銘菓 品評会」は、銀座・有楽町にある東京交通会館およびその周辺の、
+      全国の地方自治体が運営するアンテナショップで購入できる銘菓を対象に、
       三名の審査員が独自性・定番度・好みの三つの観点から丁寧に審査した品評会です。
-      地域に根ざした文化と、職人たちが紡ぐ味の物語を、ぜひお楽しみください。
     </p>
+
   </div>
 </div>
 
@@ -840,7 +1008,7 @@
 <div style="max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;">
   <div class="scoring-info fade-in">
     <div style="font-family: 'Shippori Mincho', serif; font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.3rem; letter-spacing: 0.1em;">審査基準</div>
-    <div style="font-size: 0.82rem; color: var(--ink-soft);">各審査員が以下の3項目を1〜3点で採点し、総合スコアを算出しました</div>
+    <div style="font-size: 0.82rem; color: var(--ink-soft);">各審査員が以下の3項目を採点し、総合スコアを算出しました</div>
     <div class="scoring-items">
       <div class="scoring-item">
         <div class="icon">✨</div>
@@ -855,7 +1023,59 @@
       <div class="scoring-item">
         <div class="icon">💕</div>
         <div class="name">好み点</div>
-        <div class="scale">1〜5点 × 3名</div>
+        <div class="scale">1〜5点</div>
+      </div>
+    </div>
+
+    <div class="criteria-detail">
+      <button class="accordion-toggle" id="criteriaToggle" onclick="toggleCriteria()">
+        審査基準・ルールを詳しく見る <span class="arrow">▼</span>
+      </button>
+      <div class="accordion-body" id="criteriaBody">
+
+        <div class="criteria-block">
+          <h3><span class="criteria-num">1</span>独自性</h3>
+          <p style="font-size:0.82rem; color:var(--ink-soft); margin-bottom:0.5rem;">「その銘菓ならでは」の特徴や珍しさを評価します。</p>
+          <ul class="criteria-list">
+            <li><span class="score-label">1点</span>どこにでもある</li>
+            <li><span class="score-label">2点</span>まあ珍しい</li>
+            <li><span class="score-label">3点</span>珍しい</li>
+          </ul>
+        </div>
+
+        <div class="criteria-block">
+          <h3><span class="criteria-num">2</span>定番度</h3>
+          <p style="font-size:0.82rem; color:var(--ink-soft); margin-bottom:0.5rem;">手土産としての渡しやすさ・勧めやすさを評価します。</p>
+          <ul class="criteria-list">
+            <li><span class="score-label">1点</span>人を選ぶ</li>
+            <li><span class="score-label">2点</span>手土産としてあり</li>
+            <li><span class="score-label">3点</span>手土産にぜひおすすめ</li>
+          </ul>
+        </div>
+
+        <div class="criteria-block">
+          <h3><span class="criteria-num">3</span>審査員の好み</h3>
+          <p style="font-size:0.82rem; color:var(--ink-soft); margin-bottom:0.5rem;">審査員個人の味の好みを評価します。</p>
+          <ul class="criteria-list">
+            <li><span class="score-label">1点</span>嫌い</li>
+            <li><span class="score-label">2点</span>あまり好きではない</li>
+            <li><span class="score-label">3点</span>普通</li>
+            <li><span class="score-label">4点</span>どちらかといえば好き</li>
+            <li><span class="score-label">5点</span>好き</li>
+          </ul>
+        </div>
+
+        <div class="rule-block">
+          <h3>📋 審査対象の選定ルール</h3>
+          <p style="font-size:0.82rem; color:var(--ink-soft); margin-bottom:0.8rem;">審査対象の銘菓は、審査員が当日に購入したものです。公平性と実施しやすさを考慮し、以下のルールを設けています。</p>
+          <ul class="rule-list">
+            <li>審査員が食べ切れる量にするため、賞味期限が当日までの銘菓は1人1個まで</li>
+            <li>最小単位で販売されているものを購入</li>
+            <li>原則として1都道府県につき1種類（ただし、どうしても気になるものがある場合は複数購入も可）</li>
+            <li>予算は1個あたり200円未満を想定（ただし、上限は500円以内）</li>
+          </ul>
+        </div>
+
       </div>
     </div>
   </div>
@@ -1257,6 +1477,13 @@ function renderJudgeByKey(judgeKey) {
 // 後方互換（旧呼び出し用）
 function renderJudge(judgeId, bodyId, getDokuji, getTeiban, getKono, commentKey) {
   renderJudgeByKey(judgeId);
+}
+
+function toggleCriteria() {
+  const btn = document.getElementById('criteriaToggle');
+  const body = document.getElementById('criteriaBody');
+  btn.classList.toggle('open');
+  body.classList.toggle('open');
 }
 
 function switchJudge(id, btn) {
