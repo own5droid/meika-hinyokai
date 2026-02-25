@@ -304,18 +304,23 @@
   }
 
   @media (max-width: 600px) {
+    .scoring-info {
+      padding: 1rem 0.6rem;
+    }
     .scoring-items {
       flex-wrap: nowrap;
-      gap: 0.6rem;
+      gap: 0.4rem;
+      margin-top: 0.8rem;
     }
     .scoring-item {
       min-width: 0;
       flex: 1;
-      padding: 0.7rem 0.5rem;
+      padding: 0.5rem 0.3rem;
+      border-radius: 8px;
     }
-    .scoring-item .icon { font-size: 1.2rem; }
-    .scoring-item .name { font-size: 0.8rem; }
-    .scoring-item .scale { font-size: 0.7rem; }
+    .scoring-item .icon { font-size: 1rem; margin-bottom: 0.2rem; }
+    .scoring-item .name { font-size: 0.72rem; }
+    .scoring-item .scale { font-size: 0.62rem; }
   }
 
   .scoring-item {
@@ -699,14 +704,20 @@
     .judge-panel { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .judge-panel .rank-table { min-width: 480px; }
 
-    /* 総合ランキング：テーブルを使わずカード形式 */
-    #rankingTable { display: none; }
-    #rankingCardList { display: block; }
+    /* 総合ランキング：スマホはカード形式（CSSで制御済み） */
   }
 
   /* 総合ランキングカード（スマホ用） */
   #rankingCardList {
-    display: none; /* PCでは非表示 */
+    display: none;
+  }
+  @media (max-width: 600px) {
+    #rankingCardList {
+      display: block;
+    }
+    #rankingTableWrapper {
+      display: none;
+    }
   }
 
   .rank-card {
@@ -1281,7 +1292,7 @@
   <div id="rankingCardList"></div>
 
   <!-- ランキングテーブル（PC用） -->
-  <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+  <div id="rankingTableWrapper" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
   <table class="rank-table fade-in" id="rankingTable" style="min-width: 520px;">
     <thead>
       <tr>
