@@ -303,8 +303,6 @@
     margin-top: 1.2rem;
   }
 
-
-
   .scoring-item {
     background: white;
     border-radius: 12px;
@@ -652,6 +650,10 @@
 
   .comment-box:empty::before {
     content: '— コメントなし —';
+    color: #ccc;
+    font-style: normal;
+  }
+  .no-comment {
     color: #ccc;
     font-style: normal;
   }
@@ -1039,7 +1041,7 @@
   }
 
   .location-badge {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 0.4rem;
     background: linear-gradient(135deg, var(--matcha-light), #e8f4ea);
@@ -1053,7 +1055,6 @@
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
-    display: flex;
   }
 </style>
 </head>
@@ -1311,7 +1312,7 @@
       <button class="judge-tab" onclick="switchJudge('nakamura', this)">いも</button>
     </div>
 
-    <!-- 萩野谷 -->
+    <!-- きのこ（萩野谷） -->
     <div id="panel-hagino" class="judge-panel active">
       <div class="judge-panel-header">
         <div class="judge-panel-avatar">🍄</div>
@@ -1466,8 +1467,8 @@ function sortRanking(key, th) {
     currentSortKey = key;
     currentSortDir = 'desc';
   }
-  // アイコン更新
-  document.querySelectorAll('.sort-icon').forEach(el => {
+  // アイコン更新（総合ランキングテーブルのアイコンのみリセット）
+  document.querySelectorAll('#rankingTable .sort-icon').forEach(el => {
     el.textContent = '▲▼';
     el.classList.remove('active');
   });
@@ -1631,7 +1632,8 @@ function renderJudgeByKey(judgeKey) {
     const rank = i + 1;
     const cls = getRankClass(rank);
     const medal = getMedal(rank);
-    const comment = comments[commentKey] && comments[commentKey][item.name] ? comments[commentKey][item.name] : '';
+    const commentText = comments[commentKey] && comments[commentKey][item.name] ? comments[commentKey][item.name] : '';
+    const commentHtml = commentText ? commentText : '<span class="no-comment">— コメントなし —</span>';
     const row = document.createElement('tr');
     row.className = 'rank-row';
     row.innerHTML = `
@@ -1639,7 +1641,7 @@ function renderJudgeByKey(judgeKey) {
       <td>
         <div class="rank-name">${item.name}</div>
         <div class="rank-maker">${item.pref} / ${item.maker}</div>
-        <div class="comment-box">${comment}</div>
+        <div class="comment-box">${commentHtml}</div>
       </td>
       <td style="text-align:center;">${getStars(getDokuji(item), 3)}</td>
       <td style="text-align:center;">${getStars(getTeiban(item), 3)}</td>
@@ -1733,9 +1735,9 @@ currentSortDir = 'desc';
 const initIcon = document.getElementById('sort-score');
 if (initIcon) { initIcon.textContent = '▼'; initIcon.classList.add('active'); }
 renderRanking();
-renderJudge('hagino', 'haginoBody', d => d.hDokuji, d => d.hTeiban, d => d.hKono, 'hagino');
-renderJudge('yasumoto', 'yasumotoBody', d => d.yDokuji, d => d.yTeiban, d => d.yKono, 'yasumoto');
-renderJudge('nakamura', 'nakamuraBody', d => d.nDokuji, d => d.nTeiban, d => d.nKono, 'nakamura');
+renderJudge('hagino');
+renderJudge('yasumoto');
+renderJudge('nakamura');
 </script>
 </body>
 </html>
